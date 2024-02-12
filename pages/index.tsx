@@ -26,8 +26,8 @@ export default function App() {
           mouseControls: true,
           touchControls: true,
           gyroControls: false,
-          minHeight: 200.0,
-          minWidth: 200.0,
+          // minHeight: 200.0,
+          // minWidth: 200.0,'
           scale: 1.0,
           scaleMobile: 1.0,
           backgroundColor: "#FFC0CB",
@@ -43,6 +43,7 @@ export default function App() {
 
   const [words, setWords] = useState<any>("");
   const [imageUrl, setImageUrl] = useState("");
+  const [selectedWordIndex, setSelectedWordIndex] = useState<any>("");
 
   const [attemptsLeftForToday, setAttemptsLeftForToday] =
     useState<any>(dailyLimit);
@@ -61,6 +62,12 @@ export default function App() {
     todaysWords = todaysWords || [];
     setTodaysWords(todaysWords);
   }, []);
+
+  useEffect(() => {
+    if (todaysWords.length > 0) {
+      setSelectedWordIndex(todaysWords.length - 1);
+    }
+  }, [todaysWords]);
 
   const generateRandomImage = () => {
     let image;
@@ -131,7 +138,7 @@ export default function App() {
   };
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center bg-background-secondary text-text-main relative min-h-screen">
+    <div className="flex-1 flex flex-col items-center justify-center bg-background-secondary text-pink-800 relative min-h-screen">
       <div
         className="absolute top-0 left-0 h-full w-full z-0"
         ref={vantaRef}
@@ -139,32 +146,62 @@ export default function App() {
       <div className="flex flex-col gap-4 items-center px-14 z-10">
         {/* <h1 className="font-bold text-2xl">甘い言葉が足りない君へ</h1> */}
         {todaysWords &&
-          todaysWords.map((word: any) => {
+          todaysWords.map((word: any, i: any) => {
             return (
               <blockquote
                 key={word}
-                className="text-center text-2xl font-medium italic border-l-4 border-gray-500 pl-4 relative"
+                className={`text-pink-600 text-center text-3xl font-bold italic pl-4 relative ${
+                  selectedWordIndex !== i ? "hidden" : "block"
+                }`}
               >
                 {word}
               </blockquote>
             );
           })}
-        <blockquote className="text-center text-2xl font-medium italic border-l-4 border-gray-500 pl-4 relative">
+
+        <div className="flex items-center gap-4">
+          {todaysWords &&
+            todaysWords.map((word: any, i: any) => {
+              return (
+                <div
+                  onClick={() => setSelectedWordIndex(i)}
+                  key={word}
+                  className={` p-1 px-2 border-2 text-2xl font-bold border-pink-500 cursor-pointer hover:bg-pink-500 hover:text-white 
+                  
+                  ${
+                    selectedWordIndex === i
+                      ? "bg-pink-500 text-white"
+                      : "text-pink-700"
+                  }
+                  
+                  `}
+                >
+                  {i + 1}
+                </div>
+              );
+            })}
+        </div>
+
+        {/* <blockquote className="text-center text-2xl font-medium italic border-l-4 border-gray-500 pl-4 relative">
           {words}
-        </blockquote>
+        </blockquote> */}
 
         {attemptsLeftForToday <= 0 ? (
-          <WarningMessage />
+          <div className="mt-10">
+            <WarningMessage />
+          </div>
         ) : (
           <>
             <button
-              className="btn bg-button-primary hover:bg-button-hover text-2xl px-8"
+              className="btn bg-button-primary hover:bg-button-hover text-2xl px-8 text-gray-500"
               onClick={generateWords}
             >
-              甘い言葉！
+              甘い言葉を出すボタン
             </button>
 
-            <h1 className="">今日はあと{attemptsLeftForToday}回！</h1>
+            <h1 className="font-bold text-xl">
+              今日はあと{attemptsLeftForToday}回しか残ってねーぞ！
+            </h1>
           </>
         )}
 
@@ -178,8 +215,8 @@ export default function App() {
 const WarningMessage = () => {
   return (
     <div className="">
-      <h1 className="text-2xl font-bold text-text-main text-center">
-        はいはいもう終わりだよ今日は。明日また来い！
+      <h1 className="text-4xl font-bold text-pink-800 text-center">
+        はいはいもう終わりだ今日は。また明日来るがいい！
       </h1>
     </div>
   );
