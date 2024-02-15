@@ -137,6 +137,9 @@ export default function App() {
     // setImageUrl("https://cataas.com/cat");
   };
 
+  const [explosionButtonClicked, setExplosionButtonClicked] = useState(false);
+  const [wordsOfApology, setWordsOfApology] = useState<any>("");
+
   return (
     <div className="flex-1 flex flex-col items-center justify-center bg-background-secondary text-pink-800 relative min-h-screen">
       <div
@@ -193,15 +196,62 @@ export default function App() {
         ) : (
           <>
             <button
-              className="btn bg-button-primary hover:bg-button-hover text-2xl px-8 text-gray-500"
+              className="btn bg-button-primary hover:bg-button-hover text-lg px-8 text-gray-500"
               onClick={generateWords}
             >
               甘い言葉を出すボタン
             </button>
+            <h1 className="font-thin text-sm text-center">
+              あれ、もうボタンの中から文字出てないよな、、？
+            </h1>
 
-            <h1 className="font-bold text-xl">
+            <h1 className="font-bold text-xl text-center">
               今日はあと{attemptsLeftForToday}回しか残ってねーぞ！
             </h1>
+          </>
+        )}
+
+        {!explosionButtonClicked ? (
+          <>
+            <button
+              className="btn bg-red-500 text-white"
+              onClick={() => setExplosionButtonClicked(true)}
+            >
+              押してみる？
+            </button>
+            <h1 className="font-bold text-xl text-center">
+              この赤いボタンを押すとスマホが爆発するぞ
+            </h1>
+          </>
+        ) : (
+          <>
+            <h1 className={`font-bold text-xl text-center`}>
+              {wordsOfApology === "バカでごめんなさい"
+                ? "よしよし"
+                : "いや爆発しないけどさ なんで押すんだよｗ バーカ やっぱなんも入ってない細胞じゃんｗｗｗ"}
+            </h1>
+
+            {wordsOfApology !== "バカでごめんなさい" ? (
+              <>
+                <h1 className="font-thin text-xs text-center">
+                  上の言葉消したかったら下のボックスに「バカでごめんなさい」と書くがいい
+                </h1>
+
+                <input
+                  type="text"
+                  className="p-2"
+                  value={wordsOfApology}
+                  onChange={(e) => setWordsOfApology(e.target.value)}
+                  placeholder="ここに書いてね"
+                />
+              </>
+            ) : (
+              <>
+                <h1 className="font-thin text-xs text-center">
+                  自分のことバカって言うな！
+                </h1>
+              </>
+            )}
           </>
         )}
 
