@@ -9,6 +9,9 @@ import React, { useEffect, useState, useRef } from "react";
 
 // @ts-ignore
 import BIRDS from "vanta/dist/vanta.birds.min";
+// @ts-ignore
+// import TOPOLOGY from "vanta/dist/vanta.topology.min";
+import FOG from "vanta/dist/vanta.fog.min";
 import * as THREE from "three";
 
 const dailyLimit = 3;
@@ -20,18 +23,38 @@ export default function App() {
   useEffect(() => {
     if (!vantaEffect) {
       setVantaEffect(
-        BIRDS({
+        FOG({
           el: vantaRef.current,
           THREE: THREE,
           mouseControls: true,
           touchControls: true,
           gyroControls: false,
-          // minHeight: 200.0,
-          // minWidth: 200.0,'
+          // minHeight: 200.00,
+          // minWidth: 200.00,
           scale: 1.0,
           scaleMobile: 1.0,
-          backgroundColor: "#FFC0CB",
+          highlightColor: 0xf2c6ff,
+          midtoneColor: 0xf3baf4,
+          lowlightColor: 0x9dd9,
+          baseColor: 0xffb2f3,
+          blurFactor: 0.5,
+          speed: 2.8,
+          zoom: 2.3,
         })
+
+        // BIRDS({
+
+        //   el: vantaRef.current,
+        //   THREE: THREE,
+        //   mouseControls: true,
+        //   touchControls: true,
+        //   gyroControls: false,
+        //   // minHeight: 200.0,
+        //   // minWidth: 200.0,'
+        //   scale: 1.0,
+        //   scaleMobile: 1.0,
+        //   backgroundColor: "#FFC0CB",
+        // })
       );
     }
     return () => {
@@ -147,6 +170,13 @@ export default function App() {
         ref={vantaRef}
       ></div>
       <div className="flex flex-col gap-4 items-center px-14 z-10">
+        <h1 className="font-bold text-xl text-center">
+          まだ見てるかわからんけどまたフレーズちょっと変わるぞー
+        </h1>
+        <h1 className="font-thin text-xs text-center">
+          あとこの前,悩んでた時にいろいろ聞いてくれてカムサムニダｗ
+        </h1>
+
         {/* <h1 className="font-bold text-2xl">甘い言葉が足りない君へ</h1> */}
         {todaysWords &&
           todaysWords.map((word: any, i: any) => {
@@ -201,9 +231,9 @@ export default function App() {
             >
               甘い言葉を出すボタン
             </button>
-            <h1 className="font-thin text-sm text-center">
+            {/* <h1 className="font-thin text-sm text-center">
               あれ、もうボタンの中から文字出てないよな、、？
-            </h1>
+            </h1> */}
 
             <h1 className="font-bold text-xl text-center">
               今日はあと{attemptsLeftForToday}回しか残ってねーぞ！
@@ -211,7 +241,7 @@ export default function App() {
           </>
         )}
 
-        {!explosionButtonClicked ? (
+        {/* {!explosionButtonClicked ? (
           <>
             <button
               className="btn bg-red-500 text-white"
@@ -253,7 +283,7 @@ export default function App() {
               </>
             )}
           </>
-        )}
+        )} */}
 
         {/* Image */}
         {imageUrl && <img src={imageUrl} />}
